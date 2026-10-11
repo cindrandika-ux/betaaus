@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BETA.AUS - Admin Feedback</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" crossorigin href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['"Plus Jakarta Sans"','sans-serif'] } } } }
+</script>
+<style>
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#0A0A0A;color:#F2EAE0;}
+.bar-track{background:#1E1712;border:1px solid #4A3426;}
+.bar-fill{background:#F28C28;transition:width .4s ease;}
+</style>
+</head>
+<body class="min-h-screen">
+<div class="max-w-3xl mx-auto px-5 py-8">
+<header class="flex items-center justify-between mb-6">
+<div>
+<h2 class="text-[13px] font-bold tracking-[0.16em] uppercase">BETA.AUS</h2>
+<h1 class="text-2xl font-bold text-white">Admin Page</h1>
+</div>
+<a href="./index.html" class="text-[13px] text-[#F28C28] underline underline-offset-4">Lihat form</a>
+</header>
+
+<div id="cfg-warn" class="hidden mb-4 p-3 rounded-[10px] bg-[#2A1A10] border border-[#F28C28] text-[13px]"></div>
+
+<!-- Auth -->
+<section id="auth-box" class="mb-6 p-4 rounded-2xl bg-[#18110D] border border-[#4A3426]">
+<h3 class="font-bold text-white text-[15px] mb-2">Login Admin</h3>
+<p class="text-[12.5px] text-[#A89C90] mb-3">Masuk untuk membuka dashboard.</p>
+<div class="flex flex-col sm:flex-row gap-2">
+<input id="auth-email" type="email" placeholder="Email" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" class="flex-1 h-11 bg-[#0A0A0A] border border-[#4A3426] rounded-[10px] px-3 text-[13px]">
+<input id="auth-pass" type="password" placeholder="Password" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');" class="flex-1 h-11 bg-[#0A0A0A] border border-[#4A3426] rounded-[10px] px-3 text-[13px]">
+<button id="btn-login" class="h-11 px-5 bg-[#F28C28] text-[#120D0A] font-bold text-[14px] rounded-[10px]">Login</button>
+<button id="btn-logout" class="hidden h-11 px-5 border border-[#4A3426] text-[14px] rounded-[10px]">Logout</button>
+</div>
+<p id="auth-status" class="text-[12px] text-[#8C7F72] mt-2">Belum login.</p>
+</section>
+
+<div id="dashboard" class="hidden">
+<!-- Stats -->
+<section class="grid grid-cols-3 gap-3 mb-6">
+<div class="p-4 rounded-2xl bg-[#18110D] border border-[#4A3426] text-center">
+<p id="stat-total" class="text-2xl font-extrabold text-white">0</p>
+<p class="text-[12px] text-[#A89C90]">Total ulasan</p>
+</div>
+<div class="p-4 rounded-2xl bg-[#18110D] border border-[#4A3426] text-center">
+<p id="stat-avg" class="text-2xl font-extrabold text-[#F28C28]">0.0</p>
+<p class="text-[12px] text-[#A89C90]">Rata-rata ★</p>
+</div>
+<div class="p-4 rounded-2xl bg-[#18110D] border border-[#4A3426] text-center">
+<p id="stat-puas" class="text-2xl font-extrabold text-white">0%</p>
+<p class="text-[12px] text-[#A89C90]">Puas (★4–5)</p>
+</div>
+</section>
+
+<!-- Distribusi -->
+<section class="p-4 rounded-2xl bg-[#18110D] border border-[#4A3426] mb-6">
+<div class="flex items-center justify-between mb-3">
+<h3 class="font-bold text-white text-[15px]">Presentase Penilaian</h3>
+<div class="flex gap-2">
+<button id="btn-refresh" class="h-9 px-3 border border-[#F28C28] text-[#F28C28] text-[12px] font-semibold rounded-[8px]">Refresh</button>
+<button id="btn-wipe" title="Hapus semua rating di perangkat ini" class="h-9 px-3 border border-red-500 text-red-400 text-[12px] font-semibold rounded-[8px]">Hapus</button>
+</div>
+</div>
+<div id="dist" class="flex flex-col gap-2"></div>
+<div id="cat-breakdown" class="flex flex-wrap gap-2 mt-4"></div>
+<p id="data-status" class="text-[12px] text-[#8C7F72] mt-3">Memuat...</p>
+</section>
+
+<!-- Filter ulasan -->
+<section class="p-4 rounded-2xl bg-[#18110D] border border-[#4A3426] mb-4">
+<div class="flex flex-col sm:flex-row gap-2">
+<select id="filter-rating" class="h-10 bg-[#0A0A0A] border border-[#4A3426] rounded-[10px] text-[13px] px-3">
+<option value="all">Semua bintang</option>
+<option value="5">★ 5</option>
+<option value="4">★ 4</option>
+<option value="3">★ 3</option>
+<option value="2">★ 2</option>
+<option value="1">★ 1</option>
+</select>
+<select id="filter-cat" class="h-10 bg-[#0A0A0A] border border-[#4A3426] rounded-[10px] text-[13px] px-3">
+<option value="all">Semua kategori</option>
+<option>Rasa</option><option>Pelayanan</option><option>Kebersihan</option><option>Harga</option><option>Suasana</option>
+</select>
+<input id="filter-q" placeholder="Cari ulasan / kontak..." class="flex-1 h-10 bg-[#0A0A0A] border border-[#4A3426] rounded-[10px] px-3 text-[13px]">
+<button id="btn-csv" class="h-10 px-4 bg-[#F28C28] text-[#120D0A] font-bold text-[13px] rounded-[10px]">CSV</button>
+</div>
+</section>
+
+<section id="reviews" class="flex flex-col gap-3 pb-10"></section>
+</div>
+
+<!-- Modal konfirmasi + verifikasi admin -->
+<div id="modal-backdrop" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center p-5 z-50">
+<div class="w-full max-w-[340px] p-5 rounded-2xl bg-[#18110D] border border-[#4A3426]">
+<h3 id="modal-title" class="font-bold text-white text-[15px] mb-2"></h3>
+<p id="modal-desc" class="text-[13px] text-[#D5C7B8] mb-4"></p>
+<div id="modal-verify-fields" class="hidden flex-col gap-2 mb-4">
+<input id="modal-email" type="email" placeholder="Email" autocomplete="off" class="h-11 bg-[#0A0A0A] border border-[#4A3426] rounded-[10px] px-3 text-[13px]">
+<input id="modal-pass" type="password" placeholder="Password" autocomplete="off" class="h-11 bg-[#0A0A0A] border border-[#4A3426] rounded-[10px] px-3 text-[13px]">
+</div>
+<div class="flex gap-2">
+<button id="modal-cancel" class="flex-1 h-11 border border-[#4A3426] text-[14px] rounded-[10px]">Batal</button>
+<button id="modal-ok" class="flex-1 h-11 bg-red-500 text-white font-bold text-[14px] rounded-[10px]">Ya, hapus</button>
+</div>
+</div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./config.js?v=5"></script>
+<script src="./admin.js?v=10"></script>
+</body>
+</html>

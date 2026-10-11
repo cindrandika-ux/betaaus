@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>BETA.AUS - Form Feedback</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" crossorigin href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+      colors: {
+        brand: {
+          orange: '#F28C28', accent: '#EA8322', bgDark: '#0D0907',
+          inputBg: '#18120E', borderColor: '#4A3426', chipActiveBg: '#2A1A10',
+        }
+      }
+    }
+  }
+}
+</script>
+<style>
+body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0d0907; color: #F2EAE0; -webkit-font-smoothing: antialiased;
+  background-image: linear-gradient(rgba(8,6,5,.86), rgba(8,6,5,.95)), url('./background.jpg');
+  background-size: cover; background-position: center top; background-attachment: fixed; }
+.star-btn { transition: transform .1s ease; }
+.star-btn:active { transform: scale(.9); }
+.chip[aria-pressed="true"] { background: #2A1A10; border-color: #F28C28; color: #fff; font-weight: 600; }
+</style>
+</head>
+<body class="min-h-screen bg-neutral-950 flex justify-center items-start selection:bg-[#F28C28] selection:text-white" style="background-color: rgb(10,10,10);">
+<main class="w-full max-w-[390px] min-h-screen relative px-6 pt-11 pb-8 flex flex-col justify-between" style="background:transparent;">
+<div class="flex flex-col">
+<header class="mb-5">
+<h2 class="text-[13px] font-bold tracking-[0.16em] text-[#F2EAE0] uppercase">BETA.AUS</h2>
+<div class="w-11 h-[3px] bg-[#F28C28] mt-1.5 rounded-full"></div>
+</header>
+<section class="mb-5">
+<h1 class="text-[28px] leading-[1.2] font-bold text-white tracking-tight mb-2.5">Bagaimana kunjungan Anda hari ini?</h1>
+<p class="text-[13.5px] leading-snug text-[#DDD3C8]">Cukup 1 menit. Masukan Anda membantu kami meracik lebih baik.</p>
+</section>
+<form id="feedback-form" novalidate>
+<section class="mb-6">
+<div id="stars" class="flex items-center gap-2.5" role="radiogroup" aria-label="Rating Kepuasan">
+<button type="button" class="star-btn w-9 h-9 text-[#F28C28] cursor-pointer" data-value="1" role="radio" aria-checked="false" aria-label="Bintang 1"><svg class="w-9 h-9 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+<button type="button" class="star-btn w-9 h-9 text-[#F28C28] cursor-pointer" data-value="2" role="radio" aria-checked="false" aria-label="Bintang 2"><svg class="w-9 h-9 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+<button type="button" class="star-btn w-9 h-9 text-[#F28C28] cursor-pointer" data-value="3" role="radio" aria-checked="false" aria-label="Bintang 3"><svg class="w-9 h-9 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+<button type="button" class="star-btn w-9 h-9 text-[#F28C28] cursor-pointer" data-value="4" role="radio" aria-checked="false" aria-label="Bintang 4"><svg class="w-9 h-9 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+<button type="button" class="star-btn w-9 h-9 text-[#F28C28] cursor-pointer" data-value="5" role="radio" aria-checked="false" aria-label="Bintang 5"><svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+</div>
+<p id="rating-error" class="hidden text-[12.5px] text-red-400 mt-2">Pilih rating bintang 1–5 dulu ya.</p>
+</section>
+<section class="mb-5">
+<label class="block text-[13.5px] font-medium text-[#F2EAE0] mb-2.5">Apa yang ingin Anda nilai?</label>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 flex-wrap">
+<button type="button" class="chip px-4 py-2 text-[13px] font-normal text-[#E0D8CE] bg-[#1E1712]/60 border border-[#4A3426] rounded-[10px]" data-cat="Rasa" aria-pressed="false">Rasa</button>
+<button type="button" class="chip px-4 py-2 text-[13px] font-normal text-[#E0D8CE] bg-[#1E1712]/60 border border-[#4A3426] rounded-[10px]" data-cat="Pelayanan" aria-pressed="false">Pelayanan</button>
+<button type="button" class="chip px-4 py-2 text-[13px] font-normal text-[#E0D8CE] bg-[#1E1712]/60 border border-[#4A3426] rounded-[10px]" data-cat="Kebersihan" aria-pressed="false">Kebersihan</button>
+<button type="button" class="chip px-4 py-2 text-[13px] font-normal text-[#E0D8CE] bg-[#1E1712]/60 border border-[#4A3426] rounded-[10px]" data-cat="Harga" aria-pressed="false">Harga</button>
+<button type="button" class="chip px-4 py-2 text-[13px] font-normal text-[#E0D8CE] bg-[#1E1712]/60 border border-[#4A3426] rounded-[10px]" data-cat="Suasana" aria-pressed="false">Suasana</button>
+</div>
+</div>
+</section>
+<section class="mb-4">
+<label class="block text-[13.5px] font-medium text-[#F2EAE0] mb-2" for="feedback-text">Ceritakan pengalaman Anda <span class="text-[#A89C90] text-[12.5px] font-normal">(opsional)</span></label>
+<textarea id="feedback-text" class="w-full bg-[#18110D]/90 border border-[#4A3426] rounded-[10px] px-3.5 py-3 text-[13px] text-[#F2EAE0] placeholder-[#8F8175] focus:outline-none focus:border-[#F28C28] focus:ring-1 focus:ring-[#F28C28] resize-none" placeholder="Misalnya: kopinya enak, tapi antreannya agak lama" rows="3" maxlength="1000"></textarea>
+</section>
+<section class="mb-7">
+<label class="block text-[13.5px] font-medium text-[#F2EAE0] mb-2" for="contact-info">Nama &amp; WA/email <span class="text-[#A89C90] text-[12.5px] font-normal">(boleh dikosongkan)</span></label>
+<input id="contact-info" class="w-full h-12 bg-[#18110D]/90 border border-[#4A3426] rounded-[10px] px-3.5 text-[13px] text-[#F2EAE0] placeholder-[#8F8175] focus:outline-none focus:border-[#F28C28] focus:ring-1 focus:ring-[#F28C28]" placeholder="Isi kalau mau kami hubungi balik" type="text" maxlength="200">
+</section>
+</div>
+<footer class="mt-2 flex flex-col items-center">
+<button id="submit-btn" type="submit" class="w-full h-[52px] bg-[#F28C28] hover:bg-[#e07f20] active:scale-[0.99] transition-all rounded-[10px] text-[#120D0A] font-bold text-[15px] flex items-center justify-center tracking-tight shadow-md disabled:opacity-60">Kirim Masukan</button>
+<p id="form-status" class="text-[12px] text-[#8C7F72] mt-3 text-center">Anonim, kecuali Anda mengisi kontak.</p>
+</footer>
+</form>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./config.js?v=5"></script>
+<script src="./app.js?v=4"></script>
+</body>
+</html>
